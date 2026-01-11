@@ -54,12 +54,17 @@ export const useVoiceListener = () => {
 
   // Check if Speech Recognition is supported in the browser
   useEffect(() => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    interface WindowWithSpeechRecognition extends Window {
+      SpeechRecognition?: new () => SpeechRecognition;
+      webkitSpeechRecognition?: new () => SpeechRecognition;
+    }
+    
+    const SpeechRecognition = (window as WindowWithSpeechRecognition).SpeechRecognition || (window as WindowWithSpeechRecognition).webkitSpeechRecognition;
     setIsSupported(!!SpeechRecognition);
 
     if (SpeechRecognition) {
       const recognitionInstance = new SpeechRecognition();
-      setRecognition(recognitionInstance as SpeechRecognition);
+      setRecognition(recognitionInstance);
 
       return () => {
         recognitionInstance.stop();

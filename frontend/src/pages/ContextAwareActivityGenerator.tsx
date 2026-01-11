@@ -65,7 +65,7 @@ const ContextAwareActivityGenerator = () => {
   ];
   
   // Update constraint
-  const updateConstraint = (key: keyof ActivityConstraint, value: any) => {
+  const updateConstraint = <K extends keyof ActivityConstraint>(key: K, value: ActivityConstraint[K]) => {
     setConstraints(prev => ({
       ...prev,
       [key]: value

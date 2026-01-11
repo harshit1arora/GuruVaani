@@ -72,7 +72,7 @@ const ProfileSetup = () => {
             <div className="grid grid-cols-4 gap-3">
               {classes.map(classNum => (
                 <div key={classNum} className="flex items-center justify-center">
-                  <div className="flex items-center space-x-2 cursor-pointer" onClick={() => handleClassToggle(classNum)}>
+                  <div className="flex items-center space-x-2">
                     <Checkbox 
                       id={`class-${classNum}`} 
                       checked={selectedClasses.includes(classNum)}
@@ -81,7 +81,7 @@ const ProfileSetup = () => {
                     />
                     <label 
                       htmlFor={`class-${classNum}`} 
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                     >
                       {classNum}
                     </label>
@@ -99,7 +99,7 @@ const ProfileSetup = () => {
             <div className="grid grid-cols-2 gap-3">
               {subjects.map(subject => (
                 <div key={subject} className="flex items-center">
-                  <div className="flex items-center space-x-2 cursor-pointer" onClick={() => handleSubjectToggle(subject)}>
+                  <div className="flex items-center space-x-2">
                     <Checkbox 
                       id={`subject-${subject}`} 
                       checked={selectedSubjects.includes(subject)}
@@ -108,7 +108,7 @@ const ProfileSetup = () => {
                     />
                     <label 
                       htmlFor={`subject-${subject}`} 
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                     >
                       {subject}
                     </label>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { createProfile } from "@/lib/api";
 
 const ProfileSetup = () => {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ const ProfileSetup = () => {
   // State for profile setup
   const [selectedClasses, setSelectedClasses] = useState<number[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   
   // Available options
   const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -34,16 +37,36 @@ const ProfileSetup = () => {
     );
   };
   
-  const handleSubmit = () => {
-    // Save profile data to local storage
-    localStorage.setItem("shiksha-mitra-profile", JSON.stringify({
-      classes: selectedClasses,
-      subjects: selectedSubjects,
-      language
-    }));
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError("");
     
-    // Navigate to home
-    navigate("/home");
+    try {
+      // Prepare profile data in the format expected by the backend
+      const profileData = {
+        full_name: "", // We need to add a name field to the form later
+        bio: "",
+        expertise: selectedSubjects.join(", "),
+        // Additional fields can be added here as needed
+      };
+      
+      // Send data to backend
+      await createProfile(profileData);
+      
+      // Save to local storage as backup
+      localStorage.setItem("shiksha-mitra-profile", JSON.stringify({
+        classes: selectedClasses,
+        subjects: selectedSubjects,
+        language
+      }));
+      
+      // Navigate to home
+      navigate("/home");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save profile. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
   
   return (
@@ -64,6 +87,11 @@ const ProfileSetup = () => {
       {/* Main Content */}
       <main className="flex-1 px-5">
         <form className="space-y-8">
+          {error && (
+            <div className="p-3 bg-destructive/10 text-destructive rounded-lg text-sm">
+              {error}
+            </div>
+          )}
           {/* Classes Taught */}
           <div className="fade-in-up">
             <h2 className="text-base font-semibold text-foreground mb-4">
@@ -141,9 +169,10 @@ const ProfileSetup = () => {
           <div className="fade-in-up-delay-3 pt-4">
             <Button
               onClick={handleSubmit}
+              disabled={loading}
               className="w-full h-14 text-base font-semibold rounded-xl"
             >
-              Continue
+              {loading ? "Saving..." : "Continue"}
             </Button>
           </div>
         </form>

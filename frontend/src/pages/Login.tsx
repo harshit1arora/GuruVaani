@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { sendOtp, verifyOtp } from "@/lib/api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,16 +13,39 @@ const Login = () => {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSendOTP = () => {
-    if (phone.length === 10) {
+  const handleSendOTP = async () => {
+    if (phone.length !== 10) return;
+    
+    setLoading(true);
+    setError("");
+    
+    try {
+      await sendOtp(phone);
       setStep("otp");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send OTP. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleVerifyOTP = () => {
-    if (otp.length === 6) {
+  const handleVerifyOTP = async () => {
+    if (otp.length !== 6) return;
+    
+    setLoading(true);
+    setError("");
+    
+    try {
+      const response = await verifyOtp(phone, otp);
+      localStorage.setItem("access_token", response.access_token);
       navigate("/profile-setup");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Invalid OTP. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,6 +72,11 @@ const Login = () => {
       <main className="flex-1 px-5">
         {/* Login Card */}
         <div className="bg-card rounded-2xl shadow-xl p-6 border border-border hover:shadow-2xl transition-all duration-300 animate-scale-hover">
+          {error && (
+            <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded-lg text-sm">
+              {error}
+            </div>
+          )}
           {step === "phone" ? (
             <div className="space-y-6">
               <div>
@@ -70,15 +99,16 @@ const Login = () => {
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
                   placeholder="98765 43210"
                   className="h-14 pl-20 text-lg rounded-xl border-border focus:border-primary focus:ring-primary/30"
+                  disabled={loading}
                 />
               </div>
 
               <Button
                 onClick={handleSendOTP}
-                disabled={phone.length !== 10}
+                disabled={phone.length !== 10 || loading}
                 className="w-full h-14 text-base font-semibold rounded-xl gap-2 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/85 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
               >
-                {t.login.sendOtp}
+                {loading ? "Sending..." : t.login.sendOtp}
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>
@@ -99,6 +129,7 @@ const Login = () => {
                   onChange={setOtp}
                   maxLength={6}
                   className=""
+                  disabled={loading}
                 >
                   <InputOTPGroup className="gap-3">
                     <InputOTPSlot index={0} className="w-14 h-16 text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
@@ -113,10 +144,10 @@ const Login = () => {
 
               <Button
                 onClick={handleVerifyOTP}
-                disabled={otp.length !== 6}
+                disabled={otp.length !== 6 || loading}
                 className="w-full h-14 text-base font-semibold rounded-xl gap-2 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/85 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
               >
-                {t.login.verifyBtn}
+                {loading ? "Verifying..." : t.login.verifyBtn}
                 <ArrowRight className="w-5 h-5" />
               </Button>
 
@@ -124,12 +155,14 @@ const Login = () => {
                 <button
                   onClick={() => setStep("phone")}
                   className="text-sm text-primary font-medium hover:text-primary/80 transition-colors"
+                  disabled={loading}
                 >
                   {t.login.changePhone}
                 </button>
                 <button
                   onClick={() => {}}
                   className="text-sm text-primary font-medium hover:text-primary/80 transition-colors"
+                  disabled={loading}
                 >
                   Resend OTP
                 </button>

@@ -1,11 +1,12 @@
+import { ArrowRight, Phone } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Phone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { sendOtp, verifyOtp } from "@/lib/api";
+import Logo from "@/components/Logo";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -57,9 +58,7 @@ const Login = () => {
     <div className="app-container min-h-screen flex flex-col bg-gradient-to-b from-background to-background/95">
       {/* Header */}
       <header className="px-5 pt-20 pb-10 text-center animate-fade-in-up">
-        <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center mx-auto mb-6 animate-float shadow-xl">
-          <span className="text-4xl font-bold text-primary-foreground">SM</span>
-        </div>
+        <Logo size="xl" backgroundColor="bg-gradient-to-br from-primary to-primary/80" textColor="text-primary-foreground" className="animate-float mx-auto mb-6" />
         <h1 className="text-2xl font-bold text-foreground mb-2">
           {t.login.appName}
         </h1>

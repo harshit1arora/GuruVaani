@@ -192,14 +192,14 @@ export const translations = {
       title: "Certificate",
       header: "Professional Practice Participation Certificate",
       certify: "This is to certify that",
-      description: "has actively engaged in reflective classroom practice and continuous professional learning through the Shiksha Mitra Teaching Coach platform.",
+      description: "has actively engaged in reflective classroom practice and continuous professional learning through the GuruVani Teaching Coach platform.",
       recognises: "This certificate recognises engagement in reflective classroom practice and continuous professional learning.",
       download: "Download Certificate",
     },
 
     // Login
     login: {
-      appName: "Shiksha Mitra",
+      appName: "GuruVani",
       tagline: "Teaching Coach",
       enterPhone: "Enter your phone number",
       sendOtpInfo: "We'll send you a one-time password",

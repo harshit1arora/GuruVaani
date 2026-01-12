@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mic, X, Check, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,7 +21,7 @@ const DailyReflection = () => {
   
   // 60-second timer effect
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: NodeJS.Timeout | undefined;
     if (isRecording) {
       interval = setInterval(() => {
         setRecordingTime((prev) => {
@@ -33,8 +33,12 @@ const DailyReflection = () => {
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
-  }, [isRecording]);
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [isRecording, handleStopRecording]);
   
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -54,7 +58,7 @@ const DailyReflection = () => {
     }
   };
   
-  const handleStopRecording = () => {
+  const handleStopRecording = useCallback(() => {
     setIsRecording(false);
     // Log insight: Recording stopped
     logInsight('daily-reflection', 'recording-stop', {
@@ -63,7 +67,7 @@ const DailyReflection = () => {
     // Simulate AI analysis and generate feedback
     generateAIFeedback();
     setSubmitted(true);
-  };
+  }, [logInsight, recordingTime, generateAIFeedback]);
   
   const handleCancel = () => {
     setIsRecording(false);
@@ -73,7 +77,7 @@ const DailyReflection = () => {
   };
   
   // Mock AI feedback generation based on "patterns"
-  const generateAIFeedback = () => {
+  const generateAIFeedback = useCallback(() => {
     // Mock patterns - in real app, these would come from analyzing past reflections
     const mockPatterns = [
       "fast finishers",
@@ -127,9 +131,9 @@ const DailyReflection = () => {
     
     // Save reflection to local storage (mock data)
     saveReflectionToStorage(feedback);
-  };
+  }, [logInsight, saveReflectionToStorage]);
   
-  const saveReflectionToStorage = (feedback: string[]) => {
+  const saveReflectionToStorage = useCallback((feedback: string[]) => {
     const today = new Date().toISOString().split('T')[0];
     const reflections = JSON.parse(localStorage.getItem('shiksha-mitra-reflections') || '[]');
     
@@ -140,7 +144,7 @@ const DailyReflection = () => {
     });
     
     localStorage.setItem('shiksha-mitra-reflections', JSON.stringify(reflections));
-  };
+  }, [recordingTime]);
   
   return (
     <div className="app-container pb-24 flex flex-col min-h-screen">

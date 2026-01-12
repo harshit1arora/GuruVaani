@@ -23,6 +23,7 @@ import Login from "./pages/Login";
 import ProfileSetup from "./pages/ProfileSetup";
 import ContextAwareActivityGenerator from "./pages/ContextAwareActivityGenerator";
 import ParentBridge from "./pages/ParentBridge";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,12 +38,17 @@ const AppContent = () => {
     <>
       <OfflineIndicator />
       <Routes>
-        {/* Splash Screen as default route - no transition */}
-        <Route path="/" element={<SplashScreen />} />
+        {/* Redirect to dashboard by default */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        
+        {/* Keep splash screen accessible via /splash */}
+        <Route path="/splash" element={<SplashScreen />} />
         
         {/* Wrap all other routes with page transition */}
         <Route path="/*" element={<PageTransition />}>
-          <Route path="home" element={<Index />} />
+          {/* Redirect home to dashboard */}
+          <Route path="home" element={<Navigate to="/dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="voice-input" element={<VoiceInput />} />
           <Route path="coaching" element={<Coaching />} />
           <Route path="planner" element={<Planner />} />

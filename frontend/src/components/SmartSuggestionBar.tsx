@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Lightbulb, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -16,7 +16,7 @@ const SmartSuggestionBar = ({ visible = true }: { visible?: boolean }) => {
   const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion | null>(null);
   
   // Suggestions data
-  const suggestions: Suggestion[] = [
+  const suggestions: Suggestion[] = useMemo(() => [
     // Engagement tips
     {
       id: "1",
@@ -80,7 +80,7 @@ const SmartSuggestionBar = ({ visible = true }: { visible?: boolean }) => {
       text: t.smartSuggestions.managementTip4,
       category: "management"
     },
-  ];
+  ], [t]);
   
   // Get category color
   const getCategoryColor = (category: string) => {
@@ -125,7 +125,7 @@ const SmartSuggestionBar = ({ visible = true }: { visible?: boolean }) => {
     }, 10000);
     
     return () => clearInterval(interval);
-  }, [isOpen]);
+  }, [isOpen, suggestions]);
   
   if (!isOpen || !currentSuggestion) {
     return null;

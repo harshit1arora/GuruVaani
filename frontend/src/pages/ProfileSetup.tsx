@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { createProfile } from "@/lib/api";
+import { createProfile, getProfile } from "@/lib/api";
+import Logo from "@/components/Logo";
 
 const ProfileSetup = () => {
   const navigate = useNavigate();
   const { t, language, setLanguage } = useLanguage();
   
   // State for profile setup
+  const [fullName, setFullName] = useState<string>("");
   const [selectedClasses, setSelectedClasses] = useState<number[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -19,6 +21,23 @@ const ProfileSetup = () => {
   // Available options
   const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const subjects = ["Maths", "Hindi", "English", "Science", "EVS", "Social Science", "Computer Science"];
+  
+  // Check if profile already exists on component mount
+  useEffect(() => {
+    const checkProfileExists = async () => {
+      try {
+        // Try to fetch profile
+        await getProfile();
+        // If profile exists, redirect to home
+        navigate("/home");
+      } catch (error) {
+        // If profile doesn't exist, continue with setup
+        console.log("No existing profile found, continuing with setup");
+      }
+    };
+    
+    checkProfileExists();
+  }, [navigate]);
   
   // Handlers
   const handleClassToggle = (classNum: number) => {
@@ -44,7 +63,7 @@ const ProfileSetup = () => {
     try {
       // Prepare profile data in the format expected by the backend
       const profileData = {
-        full_name: "", // We need to add a name field to the form later
+        full_name: fullName,
         bio: "",
         expertise: selectedSubjects.join(", "),
         // Additional fields can be added here as needed
@@ -63,6 +82,13 @@ const ProfileSetup = () => {
       // Navigate to home
       navigate("/home");
     } catch (err) {
+      // If profile already exists error, redirect to home
+      if (err instanceof Error && err.message.includes("already exists")) {
+        navigate("/home");
+        return;
+      }
+      
+      // For other errors, show error message
       setError(err instanceof Error ? err.message : "Failed to save profile. Please try again.");
     } finally {
       setLoading(false);
@@ -73,9 +99,7 @@ const ProfileSetup = () => {
     <div className="app-container min-h-screen flex flex-col">
       {/* Header */}
       <header className="px-5 pt-16 pb-8 text-center fade-in-up">
-        <div className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-4">
-          <span className="text-3xl font-bold text-primary-foreground">SM</span>
-        </div>
+        <Logo size="lg" backgroundColor="bg-primary" textColor="text-primary-foreground" className="mx-auto mb-4" />
         <h1 className="text-xl font-bold text-foreground mb-2">
           Complete your profile
         </h1>
@@ -92,6 +116,23 @@ const ProfileSetup = () => {
               {error}
             </div>
           )}
+          {/* Full Name */}
+          <div className="fade-in-up">
+            <h2 className="text-base font-semibold text-foreground mb-4">
+              Full Name
+            </h2>
+            <div className="space-y-2">
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Enter your full name"
+                className="w-full h-14 px-4 border border-border rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                required
+              />
+            </div>
+          </div>
+          
           {/* Classes Taught */}
           <div className="fade-in-up">
             <h2 className="text-base font-semibold text-foreground mb-4">

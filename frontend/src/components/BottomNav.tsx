@@ -1,4 +1,4 @@
-import { Home, Calendar, Mic, MessageSquare, BookOpen, User } from "lucide-react";
+import { Calendar, Mic, MessageSquare, BookOpen, User, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -9,7 +9,7 @@ const BottomNav = () => {
   const { t } = useLanguage();
 
   const navItems = [
-    { icon: Home, label: t.nav.home, path: "/home" },
+    { icon: BarChart3, label: "Dashboard", path: "/dashboard" },
     { icon: Calendar, label: t.nav.planner, path: "/planner" },
     { icon: Mic, label: t.nav.ask, path: "/voice-input", isMain: true },
     { icon: BookOpen, label: t.nav.resources, path: "/resources" },

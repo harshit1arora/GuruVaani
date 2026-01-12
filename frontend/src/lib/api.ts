@@ -49,18 +49,18 @@ export const verifyOtp = async (phone_number: string, otp: string) => {
 
 // Profile endpoints
 export const getProfile = async () => {
-  return apiFetch<any>('/profile');
+  return apiFetch<Profile>('/profile');
 };
 
-export const createProfile = async (profileData: any) => {
-  return apiFetch<any>('/profile', {
+export const createProfile = async (profileData: Profile) => {
+  return apiFetch<Profile>('/profile', {
     method: 'POST',
     body: JSON.stringify(profileData),
   });
 };
 
-export const updateProfile = async (profileData: any) => {
-  return apiFetch<any>('/profile', {
+export const updateProfile = async (profileData: Profile) => {
+  return apiFetch<Profile>('/profile', {
     method: 'PUT',
     body: JSON.stringify(profileData),
   });

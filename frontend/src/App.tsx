@@ -38,10 +38,10 @@ const AppContent = () => {
     <>
       <OfflineIndicator />
       <Routes>
-        {/* Redirect to dashboard by default */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        {/* Show splash screen by default */}
+        <Route path="/" element={<SplashScreen />} />
         
-        {/* Keep splash screen accessible via /splash */}
+        {/* Keep splash screen accessible via /splash as well */}
         <Route path="/splash" element={<SplashScreen />} />
         
         {/* Wrap all other routes with page transition */}

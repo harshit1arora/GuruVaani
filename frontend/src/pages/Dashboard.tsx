@@ -25,6 +25,19 @@ const Dashboard = () => {
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   
+  // Notifications state
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: "New resource available", message: "Check out the latest classroom management techniques", time: "2 hours ago", type: "info", isRead: false },
+    { id: 2, title: "Deadline reminder", message: "Your lesson plan is due in 3 days", time: "1 day ago", type: "warning", isRead: false },
+    { id: 3, title: "Coach feedback received", message: "Your reflection has been reviewed by your coach", time: "2 days ago", type: "success", isRead: false },
+    { id: 4, title: "Peer comment", message: "Someone commented on your reflection", time: "3 days ago", type: "info", isRead: false },
+  ]);
+  
+  // Mark all notifications as read
+  const handleMarkAllRead = () => {
+    setNotifications(prev => prev.map(notification => ({ ...notification, isRead: true })));
+  };
+  
   // Class categories and their subjects mapping
   const classCategories = {
     "primary": {
@@ -98,13 +111,6 @@ const Dashboard = () => {
     { theme: "Time Management", count: 6, sentiment: "negative" },
   ];
 
-  const notifications = [
-    { id: 1, title: "New resource available", message: "Check out the latest classroom management techniques", time: "2 hours ago", type: "info" },
-    { id: 2, title: "Deadline reminder", message: "Your lesson plan is due in 3 days", time: "1 day ago", type: "warning" },
-    { id: 3, title: "Coach feedback received", message: "Your reflection has been reviewed by your coach", time: "2 days ago", type: "success" },
-    { id: 4, title: "Peer comment", message: "Someone commented on your reflection", time: "3 days ago", type: "info" },
-  ];
-
   return (
     <div className="app-container pb-24 bg-gradient-to-b from-background to-background/95">
       {/* Header with Gradient */}
@@ -124,7 +130,8 @@ const Dashboard = () => {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full bg-white/15 text-white hover:bg-white/25 transition-all duration-300"
+              className="rounded-full bg-white/15 text-white hover:bg-white/25 transition-all duration-300 relative"
+              onClick={() => { /* Notification panel functionality to be added */ }}
             >
               <Bell className="h-5 w-5" />
               <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
@@ -289,7 +296,9 @@ const Dashboard = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg font-semibold">Upcoming Tasks</CardTitle>
-                  <Button variant="ghost" size="sm" className="text-primary">View All</Button>
+                  <Button variant="ghost" size="sm" className="text-primary" onClick={() => setActiveTab('tasks')}>
+                    View All
+                  </Button>
                 </div>
                 <CardDescription>Stay on top of your professional development tasks</CardDescription>
               </CardHeader>
@@ -320,7 +329,9 @@ const Dashboard = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg font-semibold">Notifications</CardTitle>
-                  <Button variant="ghost" size="sm" className="text-primary">Mark All Read</Button>
+                  <Button variant="ghost" size="sm" className="text-primary" onClick={handleMarkAllRead}>
+                    Mark All Read
+                  </Button>
                 </div>
               </CardHeader>
               <CardContent>

@@ -97,10 +97,13 @@ const VoiceInput = () => {
         </div>
 
         {/* Transcript Display */}
-        {isRecording && transcript && (
-          <div className="w-full max-w-md bg-secondary/50 rounded-xl p-4 mb-8 border border-border">
-            <p className="text-sm text-foreground">
-              {transcript}
+        {isRecording && (
+          <div className="w-full max-w-md bg-card rounded-2xl p-6 mb-8 border border-border shadow-md">
+            <h3 className="text-sm font-medium text-muted-foreground mb-2">{t.voice.transcript}</h3>
+            <p className="text-base text-foreground min-h-[60px] leading-relaxed">
+              {transcript || (
+                <span className="text-muted-foreground italic">{t.voice.startSpeaking}</span>
+              )}
             </p>
           </div>
         )}

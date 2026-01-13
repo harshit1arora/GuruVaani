@@ -34,7 +34,11 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border pb-safe-bottom">
+    <nav className={cn(
+      "fixed bottom-0 left-0 right-0 bg-card border-t border-border pb-safe-bottom",
+      "transition-transform duration-300 ease-in-out",
+      isVisible ? "translate-y-0" : "translate-y-full"
+    )}>
       <div className="max-w-md mx-auto flex items-center justify-around py-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;

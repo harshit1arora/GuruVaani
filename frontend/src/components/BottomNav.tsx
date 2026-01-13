@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Calendar, Mic, MessageSquare, BookOpen, User, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -7,9 +8,25 @@ const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useLanguage();
+  const [isVisible, setIsVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+  // Handle scroll to show/hide nav
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      
+      // Show nav when scrolling up, hide when scrolling down
+      setIsVisible(prevScrollPos > currentScrollPos || currentScrollPos < 100);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos]);
 
   const navItems = [
-    { icon: BarChart3, label: "My Support Space", path: "/dashboard" },
+    { icon: BarChart3, label: "Home", path: "/dashboard" },
     { icon: Calendar, label: t.nav.planner, path: "/planner" },
     { icon: Mic, label: t.nav.ask, path: "/voice-input", isMain: true },
     { icon: BookOpen, label: t.nav.resources, path: "/resources" },

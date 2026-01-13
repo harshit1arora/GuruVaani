@@ -63,6 +63,7 @@ const AppContent = () => {
           <Route path="activity-generator" element={<ContextAwareActivityGenerator />} />
           <Route path="parent-bridge" element={<ParentBridge />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="classroom-help" element={<Coaching />} /> {/* Temporary mapping to Coaching page */}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

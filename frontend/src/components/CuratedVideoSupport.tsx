@@ -331,7 +331,30 @@ const CuratedVideoSupport = ({ topic, videos }: CuratedVideoProps) => {
               <iframe 
                 width="100%" 
                 height="100%" 
-                src={`https://www.youtube.com/embed/${selectedVideo.youtubeUrl.split("v=")[1]}`} 
+                src={(() => {
+                  // Extract video ID from various YouTube URL formats
+                  const url = selectedVideo.youtubeUrl;
+                  let videoId = '';
+                  
+                  // Handle all major YouTube URL formats
+                  const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+                  const match = url.match(youtubeRegex);
+                  
+                  if (match && match[1]) {
+                    videoId = match[1];
+                  } else {
+                    // Fallback to simple extraction if regex fails
+                    if (url.includes('youtu.be/')) {
+                      videoId = url.split('youtu.be/')[1].split('?')[0];
+                    } else if (url.includes('watch?v=')) {
+                      videoId = url.split('watch?v=')[1].split('&')[0];
+                    } else if (url.includes('embed/')) {
+                      videoId = url.split('embed/')[1].split('?')[0];
+                    }
+                  }
+                  
+                  return `https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&rel=0`;
+                })()} 
                 title={selectedVideo.title} 
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

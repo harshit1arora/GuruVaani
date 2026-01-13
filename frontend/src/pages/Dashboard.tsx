@@ -208,6 +208,7 @@ const Dashboard = () => {
             <Button 
               className="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg mt-4"
               disabled={!selectedSubject}
+              onClick={() => navigate("/classroom-help")}
             >
               Proceed
             </Button>

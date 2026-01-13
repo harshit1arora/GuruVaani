@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta
 from typing import Optional
-import jwt
+from jose import jwt
 from app.config import settings  # make sure you have a config.py that loads .env
 
 # Use values from .env via settings

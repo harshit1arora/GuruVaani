@@ -1,14 +1,35 @@
 import { ArrowLeft, Download } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import BottomNav from "@/components/BottomNav";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { jsPDF } from "jspdf";
 import Logo from "../components/Logo";
+import { getProfile, Profile } from "@/lib/api";
 
 const Certificate = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch user profile data
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true);
+      try {
+        const data = await getProfile();
+        setProfile(data);
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   // Function to download certificate as PDF
   const handleDownload = () => {
@@ -24,99 +45,92 @@ const Certificate = () => {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    // Draw yellow background
-    doc.setFillColor(255, 223, 89); // Yellow background
+    // Set background with blue geometric patterns (simplified representation)
+    doc.setFillColor(255, 255, 255); // White background
     doc.rect(0, 0, pageWidth, pageHeight, "F");
 
-    // Draw white certificate area with dashed border
-    const certificateWidth = pageWidth - margin * 2;
-    const certificateHeight = pageHeight - margin * 2;
-    doc.setFillColor(255, 255, 255); // White certificate background
-    doc.rect(margin, margin, certificateWidth, certificateHeight, "F");
-    
-    // Add dashed border
-    doc.setDrawColor(150, 150, 150);
-    doc.setLineWidth(0.5);
-    doc.setLineDashPattern([3, 3]);
-    doc.rect(margin, margin, certificateWidth, certificateHeight);
-    doc.setLineDashPattern([], 0); // Reset to solid line
+    // Add blue border design
+    doc.setDrawColor(11, 115, 120); // Teal blue color
+    doc.setLineWidth(1);
+    doc.rect(margin - 5, margin - 5, pageWidth - (margin - 5) * 2, pageHeight - (margin - 5) * 2);
 
-    // Add blue circular logo at the top
-    doc.setFillColor(52, 152, 219); // Blue circle
-    doc.circle(pageWidth / 2, margin + 30, 25, "F");
+    // Add GuruVani logo placeholder (circle with text)
+    doc.setFillColor(11, 115, 120); // Teal blue circle
+    doc.circle(pageWidth / 2, margin + 25, 20, "F");
     
-    // Add ribbon symbol (using text as a simple representation)
+    // Add logo text
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
+    doc.setFontSize(12);
     doc.setTextColor(255, 255, 255); // White text
-    doc.text("🏆", pageWidth / 2, margin + 33, { align: "center" });
-
-    // Add prestige text
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text("PRESTIGIOUS AWARD", pageWidth / 2, margin + 60, { align: "center" });
+    doc.text("GV", pageWidth / 2, margin + 28, { align: "center" });
 
     // Add certificate title
     doc.setFont("helvetica", "bold");
     doc.setFontSize(24);
-    doc.setTextColor(44, 62, 80); // Dark blue text
-    doc.text("CERTIFICATE", pageWidth / 2, margin + 80, { align: "center" });
+    doc.setTextColor(11, 115, 120); // Teal blue text
+    doc.text("CERTIFICATE", pageWidth / 2, margin + 60, { align: "center" });
     
     doc.setFontSize(16);
-    doc.setTextColor(231, 76, 60); // Red text for achievement
-    doc.text("OF ACHIEVEMENT", pageWidth / 2, margin + 95, { align: "center" });
+    doc.setTextColor(60, 60, 60); // Dark gray text
+    doc.text("OF APPRECIATION", pageWidth / 2, margin + 75, { align: "center" });
 
-    // Add certificate text
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.setTextColor(100, 100, 100);
-    doc.text("This is to certify that", pageWidth / 2, margin + 115, { align: "center" });
-
-    // Add recipient name with cursive-style font
-    doc.setFont("courier", "bold italic");
-    doc.setFontSize(28);
-    doc.setTextColor(44, 62, 80);
-    doc.text("Sunita Mishra", pageWidth / 2, margin + 135, { align: "center" });
+    // Add recipient name
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(30);
+    doc.setTextColor(60, 60, 60);
+    doc.text(profile?.full_name || "Sunita Mishra", pageWidth / 2, margin + 110, { align: "center" });
 
     // Add certificate description
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
-    doc.setTextColor(100, 100, 100);
+    doc.setTextColor(80, 80, 80);
     doc.text(
-      "has actively engaged in reflective classroom practice",
-      pageWidth / 2, margin + 155, { align: "center" }
+      "Your achievements highlight not only your hard work,",
+      pageWidth / 2, margin + 135, { align: "center" }
     );
     doc.text(
-      "and continuous professional learning through the",
-      pageWidth / 2, margin + 162, { align: "center" }
+      "but also your passion and commitment to continuous growth.",
+      pageWidth / 2, margin + 142, { align: "center" }
     );
     doc.text(
-      "GuruVani Teaching Coach platform.",
-      pageWidth / 2, margin + 169, { align: "center" }
+      "May this milestone inspire even greater accomplishments ahead.",
+      pageWidth / 2, margin + 149, { align: "center" }
     );
 
-    // Add date and signature line
+    // Add yellow ribbon icon
+    doc.setFontSize(20);
+    doc.setTextColor(255, 200, 0); // Yellow color
+    doc.text("🏆", pageWidth / 2, margin + 175, { align: "center" });
+
+    // Add signature lines and signatures
     doc.setDrawColor(150, 150, 150); // Gray border
     doc.setLineWidth(0.5);
-    doc.line(margin + 20, margin + 195, pageWidth - margin - 20, margin + 195);
-
-    // Add date and signature
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    doc.setTextColor(100, 100, 100);
-    doc.text("January 2025", margin + 20, margin + 205);
-    doc.text("GuruVani", pageWidth - margin - 20, margin + 205, { align: "right" });
-
-    // Add red circular seal at bottom right
-    doc.setFillColor(231, 76, 60); // Red seal
-    doc.circle(pageWidth - margin - 25, margin + certificateHeight - 25, 15, "F");
     
-    // Add seal text
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(8);
-    doc.setTextColor(255, 255, 255);
-    doc.text("SEAL", pageWidth - margin - 25, margin + certificateHeight - 25, { align: "center" });
+    // Left signature line (Harshit Arora)
+    doc.line(margin + 20, margin + 195, pageWidth / 2 - 20, margin + 195);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(80, 80, 80);
+    doc.text("HARSHIT ARORA", margin + 20, margin + 205);
+    doc.text("(GURUVAANI)", margin + 20, margin + 210);
+    
+    // Right signature line (Tejas Ranjeet)
+    doc.line(pageWidth / 2 + 20, margin + 195, pageWidth - margin - 20, margin + 195);
+    doc.text("TEJAS RANJEET", pageWidth - margin - 20, margin + 205, { align: "right" });
+    doc.text("(GURUVAANI)", pageWidth - margin - 20, margin + 210, { align: "right" });
+
+    // Add certificate ID and date
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    const currentDate = new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    doc.text(
+      `CERTIFICATE ID: GV-TEACH-${new Date().getFullYear()}-000124 ISSUED ON: ${currentDate}`,
+      pageWidth / 2, margin + 230, { align: "center" }
+    );
+    doc.text(
+      "DIGITALLY GENERATED VIA GURUVAANI",
+      pageWidth / 2, margin + 235, { align: "center" }
+    );
 
     // Download the PDF
     doc.save("guruvani-certificate.pdf");
@@ -139,36 +153,58 @@ const Certificate = () => {
 
       {/* Certificate Preview */}
       <section className="px-5 mb-6 fade-in-up">
-        <div className="bg-card rounded-xl border-2 border-primary/20 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-xl border-2 border-[#0D7377]/20 shadow-sm overflow-hidden">
           {/* Certificate Header */}
-          <div className="bg-primary/5 p-6 text-center border-b border-primary/10">
-            <Logo size="sm" backgroundColor="bg-primary/10" textColor="text-primary" className="mx-auto mb-3" />
-            <p className="text-xs text-primary uppercase tracking-widest font-medium">
-              {t.login.appName}
+          <div className="bg-[#0D7377]/5 p-6 text-center border-b border-[#0D7377]/10">
+            <div className="w-12 h-12 rounded-full bg-[#0D7377] flex items-center justify-center mx-auto mb-3">
+              <span className="text-white font-bold">GV</span>
+            </div>
+            <p className="text-xs text-[#0D7377] uppercase tracking-widest font-medium">
+              GURUVANI
             </p>
           </div>
 
           {/* Certificate Body */}
-          <div className="p-6 text-center">
-            <h2 className="text-lg font-bold text-foreground mb-2">
-              {t.certificate.header}
+          <div className="p-8 text-center">
+            <h2 className="text-2xl font-bold text-[#0D7377] mb-2">
+              CERTIFICATE
             </h2>
             
-            <p className="text-sm text-muted-foreground mb-6">
-              {t.certificate.certify}
+            <h3 className="text-lg font-semibold text-gray-700 mb-8">
+              OF APPRECIATION
+            </h3>
+
+            <p className="text-3xl font-bold text-gray-800 mb-8">
+              {profile?.full_name || "Sunita Mishra"}
             </p>
 
-            <p className="text-xl font-semibold text-primary mb-6">
-              Sunita Mishra
+            <p className="text-sm text-gray-600 leading-relaxed mb-12 max-w-md mx-auto">
+              Your achievements highlight not only your hard work, but also your passion and commitment to continuous growth. May this milestone inspire even greater accomplishments ahead.
             </p>
 
-            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-              {t.certificate.description}
-            </p>
+            {/* Ribbon Icon */}
+            <div className="mb-10">
+              <span className="text-4xl">🏆</span>
+            </div>
 
-            <div className="flex justify-between items-center text-xs text-muted-foreground pt-4 border-t border-border">
-              <span>January 2025</span>
-              <span>{t.login.appName}</span>
+            {/* Signatures */}
+            <div className="flex justify-between items-center mb-8">
+              <div className="text-center">
+                <div className="w-32 h-0.5 bg-gray-400 mx-auto mb-2"></div>
+                <p className="text-sm font-medium text-gray-700">HARSHIT ARORA</p>
+                <p className="text-xs text-gray-500">(GURUVAANI)</p>
+              </div>
+              <div className="text-center">
+                <div className="w-32 h-0.5 bg-gray-400 mx-auto mb-2"></div>
+                <p className="text-sm font-medium text-gray-700">TEJAS RANJEET</p>
+                <p className="text-xs text-gray-500">(GURUVAANI)</p>
+              </div>
+            </div>
+
+            {/* Certificate ID and Date */}
+            <div className="text-xs text-gray-500 space-y-1">
+              <p>CERTIFICATE ID: GV-TEACH-2026-000124 ISSUED ON: 12 JAN 2026</p>
+              <p>DIGITALLY GENERATED VIA GURUVAANI</p>
             </div>
           </div>
         </div>

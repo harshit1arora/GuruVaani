@@ -9,7 +9,7 @@ const BottomNav = () => {
   const { t } = useLanguage();
 
   const navItems = [
-    { icon: BarChart3, label: "Dashboard", path: "/dashboard" },
+    { icon: BarChart3, label: "My Support Space", path: "/dashboard" },
     { icon: Calendar, label: t.nav.planner, path: "/planner" },
     { icon: Mic, label: t.nav.ask, path: "/voice-input", isMain: true },
     { icon: BookOpen, label: t.nav.resources, path: "/resources" },

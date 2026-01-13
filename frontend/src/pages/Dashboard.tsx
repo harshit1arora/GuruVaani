@@ -139,7 +139,7 @@ const Dashboard = () => {
             Welcome back, Sunita!
           </h2>
           <p className="text-white/80 text-sm">
-            Track your progress and stay organized with your professional development
+            Your personalized support space for teaching development
           </p>
         </div>
       </header>
@@ -204,6 +204,13 @@ const Dashboard = () => {
                 </Select>
               </div>
             </div>
+            {/* Proceed Button */}
+            <Button 
+              className="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg mt-4"
+              disabled={!selectedSubject}
+            >
+              Proceed
+            </Button>
           </CardContent>
         </Card>
       </section>
@@ -217,17 +224,6 @@ const Dashboard = () => {
         
         {/* Action Cards */}
         <div className="grid grid-cols-2 gap-3">
-          {/* Dashboard */}
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="bg-card rounded-xl shadow-lg p-4 border border-border hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col items-center gap-3 hover:border-primary/50 animate-scale-hover"
-          >
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-primary" />
-            </div>
-            <span className="text-sm font-medium text-foreground">Dashboard</span>
-          </button>
-          
           {/* Peer Wisdom */}
           <button
             onClick={() => navigate("/peer-wisdom")}
@@ -278,45 +274,14 @@ const Dashboard = () => {
       <main className="px-5 -mt-4">
         {/* Dashboard Tabs */}
         <Tabs defaultValue="overview" className="mb-8" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-4 mb-6 bg-card shadow-lg rounded-xl p-1 border border-border">
+          <TabsList className="grid grid-cols-2 mb-6 bg-card shadow-lg rounded-xl p-1 border border-border">
             <TabsTrigger value="overview" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white">Overview</TabsTrigger>
             <TabsTrigger value="tasks" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white">Tasks</TabsTrigger>
-            <TabsTrigger value="reflections" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white">Reflections</TabsTrigger>
-            <TabsTrigger value="certifications" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white">Certifications</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="shadow-lg hover:shadow-2xl transition-all duration-300 border-border">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Reflection Streak</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="text-3xl font-bold text-primary">7 days</div>
-                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Clock className="h-6 w-6 text-primary" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-lg hover:shadow-2xl transition-all duration-300 border-border">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Badges Earned</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="text-3xl font-bold text-primary">12</div>
-                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Award className="h-6 w-6 text-primary" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Removed Stats Cards */}
 
             {/* Upcoming Tasks */}
             <Card className="shadow-lg hover:shadow-2xl transition-all duration-300 border-border">

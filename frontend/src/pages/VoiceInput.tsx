@@ -27,6 +27,8 @@ const VoiceInput = () => {
     clearTranscript 
   } = useVoiceListener();
 
+  const { language } = useLanguage();
+
   // Show text fallback automatically if there's a network error
   useEffect(() => {
     if (error === 'network') {
@@ -77,7 +79,7 @@ const VoiceInput = () => {
       clearTranscript();
       setShowTextFallback(false);
       startListening({
-        lang: t.lang === 'hi' ? 'hi-IN' : 'en-IN',
+        lang: language === 'hi' ? 'hi-IN' : 'en-IN',
         continuous: false,
         interimResults: true
       });

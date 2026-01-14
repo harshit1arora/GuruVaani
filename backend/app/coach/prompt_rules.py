@@ -9,6 +9,9 @@ def build_prompt(
     Output MUST be JSON with specific 3 keys.
     """
 
+    now_title = "⚡ What to do now (30 sec)" if language == "English" else "⚡ अभी क्या करें (30 सेकंड)"
+    explain_title = "💡 Way to explain" if language == "English" else "💡 Concept समझाने का तरीका"
+
     return f"""
 SYSTEM PROMPT (GROQ)
 You are an AI Teaching Coach supporting Indian government school teachers.
@@ -38,27 +41,27 @@ Task:
 Give immediate, practical coaching in exactly 3 short parts.
 
 Rules:
-1. Keep each part under 40 words
-2. Use simple Hindi or Hinglish (unless English is requested)
-3. Must be usable instantly inside a classroom
-4. No academic jargon
-5. No moralising or blaming students
+    1. Keep each part under 40 words
+    2. Use {language} (unless the teacher's input is in a different language, then adapt accordingly)
+    3. Must be usable instantly inside a classroom
+    4. No academic jargon
+    5. No moralising or blaming students
 
 OUTPUT FORMAT (STRICT JSON ONLY)
-{{
-  "now_fix": {{
-    "title": "⚡ अभी क्या करें (30 सेकंड)",
-    "text": ""
-  }},
-  "activity": {{
-    "title": "🎯 Simple Activity / Hook",
-    "text": ""
-  }},
-  "explain": {{
-    "title": "💡 Concept समझाने का तरीका",
-    "text": ""
-  }}
-}}
+    {{
+      "now_fix": {{
+        "title": "{now_title}",
+        "text": ""
+      }},
+      "activity": {{
+        "title": "🎯 Simple Activity / Hook",
+        "text": ""
+      }},
+      "explain": {{
+        "title": "{explain_title}",
+        "text": ""
+      }}
+    }}
 
 IMPORTANT:
 If the response is not JSON → reject and regenerate.

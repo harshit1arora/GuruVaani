@@ -49,6 +49,8 @@ export const translations = {
       useTextFallback: "Try typing your problem instead",
       typePlaceholder: "Type your classroom problem here...",
       submitText: "Get Coaching Support",
+      backToVoice: "Use Voice instead",
+      startSpeaking: "Start speaking...",
     },
 
     // Coaching
@@ -414,6 +416,8 @@ export const translations = {
       useTextFallback: "अपनी समस्या टाइप करके बताएं",
       typePlaceholder: "यहाँ अपनी कक्षा की समस्या लिखें...",
       submitText: "कोचिंग सहायता प्राप्त करें",
+      backToVoice: "वॉइस का उपयोग करें",
+      startSpeaking: "बोलना शुरू करें...",
     },
 
     // Coaching

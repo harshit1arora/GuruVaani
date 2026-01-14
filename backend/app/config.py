@@ -11,7 +11,6 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
     GROQ_API_KEY: str
-    YOUTUBE_API_KEY: str
 
     class Config:
         env_file = ".env"

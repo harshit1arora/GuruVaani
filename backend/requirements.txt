@@ -7,6 +7,6 @@ python-jose
 pydantic
 pydantic-settings
 alembic
-httpx
+httpx==0.24.1
 requests
 youtube-search-python

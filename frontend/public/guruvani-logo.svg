@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- Circular border with decorative elements -->
+  <circle cx="100" cy="100" r="95" fill="white" stroke="#1A5276" stroke-width="2"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#1A5276" stroke-width="1" stroke-dasharray="2,2"/>
+  
+  <!-- Decorative corner elements -->
+  <g fill="#F39C12" stroke="#1A5276" stroke-width="0.5">
+    <!-- Top elements -->
+    <path d="M100 5 L95 15 L105 15 Z"/>
+    <path d="M15 100 L5 95 L5 105 Z"/>
+    <path d="M185 100 L195 95 L195 105 Z"/>
+    <path d="M100 195 L95 185 L105 185 Z"/>
+    
+    <!-- Additional decorative patterns -->
+    <path d="M30 30 L25 35 L35 35 Z"/>
+    <path d="M170 30 L165 35 L175 35 Z"/>
+    <path d="M30 170 L25 165 L35 165 Z"/>
+    <path d="M170 170 L165 165 L175 165 Z"/>
+    
+    <!-- Middle decorative elements -->
+    <circle cx="100" cy="25" r="2"/>
+    <circle cx="25" cy="100" r="2"/>
+    <circle cx="175" cy="100" r="2"/>
+    <circle cx="100" cy="175" r="2"/>
+  </g>
+  
+  <!-- Main logo elements -->
+  
+  <!-- Open book -->
+  <path d="M50 120 L75 100 L100 120 L125 100 L150 120 L150 135 L50 135 Z" fill="#1A5276"/>
+  
+  <!-- Book pages -->
+  <path d="M75 100 L75 135" stroke="#1A5276" stroke-width="1"/>
+  <path d="M100 100 L100 135" stroke="#1A5276" stroke-width="1"/>
+  <path d="M125 100 L125 135" stroke="#1A5276" stroke-width="1"/>
+  
+  <!-- Book cover accent -->
+  <path d="M60 135 L75 120 L125 120 L140 135" fill="#F39C12" opacity="0.3"/>
+  
+  <!-- Head silhouette -->
+  <path d="M90 70 C90 60 110 60 110 70 C110 85 100 95 100 95 L90 95 Z" fill="#1A5276"/>
+  
+  <!-- Sound waves -->
+  <g stroke="#F39C12" stroke-width="2" stroke-linecap="round">
+    <path d="M80 75 C80 75 85 70 90 70"/>
+    <path d="M80 80 C80 80 85 75 90 75"/>
+    <path d="M80 85 C80 85 85 80 90 80"/>
+  </g>
+  
+  <!-- Inner light -->
+  <circle cx="100" cy="75" r="3" fill="#F39C12"/>
+  <circle cx="100" cy="75" r="6" fill="#F39C12" opacity="0.3"/>
+  
+  <!-- Flame on top -->
+  <path d="M100 45 C95 50 105 50 100 55 Z" fill="#F39C12"/>
+  <path d="M100 40 C97 45 103 45 100 50 Z" fill="#E67E22"/>
+  <path d="M100 35 C99 40 101 40 100 45 Z" fill="#D35400"/>
+  
+  <!-- Text: GURU VAANI -->
+  <text x="100" y="160" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1A5276" text-anchor="middle">GURU VAANI</text>
+  
+  <!-- Hindi text: शिक्षा की नई आवाज़ -->
+  <text x="100" y="180" font-family="Arial, sans-serif" font-size="12" fill="#1A5276" text-anchor="middle">शिक्षा की नई आवाज़</text>
+</svg>

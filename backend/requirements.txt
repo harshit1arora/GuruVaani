@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+python-dotenv
+python-jose
+pydantic
+pydantic-settings
+alembic
+httpx
+requests
+youtube-search-python

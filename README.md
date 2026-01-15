@@ -1,4 +1,4 @@
-# GuruVaani: Your Just-in-Time Classroom Coach 🎙️🏫
+# GuruVaani: Your Just-in-Time Classroom Coach 🎙️
 
 **Team GuruVaani: Harshit Arora & Tejas Ranjeet**  
 *Developed for the Shikshalokam Hackathon*

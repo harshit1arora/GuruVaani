@@ -122,21 +122,21 @@ const Login = () => {
                 </p>
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-center overflow-hidden">
                 <InputOTP
                   value={otp}
                   onChange={setOtp}
                   maxLength={6}
-                  className=""
+                  className="w-full"
                   disabled={loading}
                 >
-                  <InputOTPGroup className="gap-3">
-                    <InputOTPSlot index={0} className="w-14 h-16 text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
-                    <InputOTPSlot index={1} className="w-14 h-16 text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
-                    <InputOTPSlot index={2} className="w-14 h-16 text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
-                    <InputOTPSlot index={3} className="w-14 h-16 text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
-                    <InputOTPSlot index={4} className="w-14 h-16 text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
-                    <InputOTPSlot index={5} className="w-14 h-16 text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
+                  <InputOTPGroup className="gap-2 sm:gap-3">
+                    <InputOTPSlot index={0} className="w-10 h-12 sm:w-14 sm:h-16 text-lg sm:text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
+                    <InputOTPSlot index={1} className="w-10 h-12 sm:w-14 sm:h-16 text-lg sm:text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
+                    <InputOTPSlot index={2} className="w-10 h-12 sm:w-14 sm:h-16 text-lg sm:text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
+                    <InputOTPSlot index={3} className="w-10 h-12 sm:w-14 sm:h-16 text-lg sm:text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
+                    <InputOTPSlot index={4} className="w-10 h-12 sm:w-14 sm:h-16 text-lg sm:text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
+                    <InputOTPSlot index={5} className="w-10 h-12 sm:w-14 sm:h-16 text-lg sm:text-xl rounded-xl border-border focus:border-primary focus:ring-primary/30 bg-background" />
                   </InputOTPGroup>
                 </InputOTP>
               </div>
